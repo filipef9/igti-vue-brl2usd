@@ -27,11 +27,8 @@
       <Button label="Calcular" @click="calcular" class="ml-1" />
     </div>
 
-    <div v-show="resultadoConversao" class="mt-5">
-      <p>
-        Com <strong>{{ quantidadeEmReais }}</strong> reais é possível comprar
-        <strong>{{ resultadoConversao }}</strong> dólares a <strong>{{ cotacaoDoDolar }}</strong> cada
-      </p>
+    <div v-show="mostrarResultadoConversao" class="mt-5">
+      <p>{{ resultadoConversao }}</p>
     </div>
   </main>
 </template>
@@ -42,21 +39,25 @@ export default {
     return {
       quantidadeEmReais: null,
       cotacaoDoDolar: null,
-      resultadoConversao: null,
+      mostrarResultadoConversao: false
     };
   },
   methods: {
     limpar() {
       this.quantidadeEmReais = null;
       this.cotacaoDoDolar = null;
-      this.resultadoConversao = null;
+      this.mostrarResultadoConversao = false;
     },
     calcular() {
-      this.resultadoConversao = (
-        this.quantidadeEmReais / this.cotacaoDoDolar
-      ).toFixed(2);
+      this.mostrarResultadoConversao = true;
     },
   },
+  computed: {
+    resultadoConversao() {
+      const resultado = ( this.quantidadeEmReais / this.cotacaoDoDolar).toFixed(2);
+      return `Com ${this.quantidadeEmReais} reais é possível comprar ${resultado} dólares a ${this.cotacaoDoDolar} cada.`;
+    }
+  }
 };
 </script>
 
